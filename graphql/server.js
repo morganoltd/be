@@ -1,33 +1,35 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
+const path = require('path');
 
-const GAMES = require('./GAMES/GameSchema');
-const GameMutation = require('./GAMES/GameMutation');
-const GameQuery = require('./GAMES/GameQuery');
+// Import your schema and resolvers from the graphql folder
+const GAMES = require('./graphql/GAMES/GameSchema');
+const GameMutation = require('./graphql/GAMES/GameMutation');
+const GameQuery = require('./graphql/GAMES/GameQuery');
 
-const USERS = require('./USERS/UserSchema');
-const UserMutation = require('./USERS/UserMutation');
-const UserQuery = require('./USERS/UserQuery');
+const USERS = require('./graphql/USERS/UserSchema');
+const UserMutation = require('./graphql/USERS/UserMutation');
+const UserQuery = require('./graphql/USERS/UserQuery');
 
-const POST = require('./POST/PostSchema');
-const PostMutation = require('./POST/PostMutation');
-const PostQuery = require('./POST/PostQuery');
+const POST = require('./graphql/POST/PostSchema');
+const PostMutation = require('./graphql/POST/PostMutation');
+const PostQuery = require('./graphql/POST/PostQuery');
 
-const POSTS = require('./POSTS/PostsSchema');
-const PostsMutation = require('./POSTS/PostsMutation');
-const PostsQuery = require('./POSTS/PostsQuery');
+const POSTS = require('./graphql/POSTS/PostsSchema');
+const PostsMutation = require('./graphql/POSTS/PostsMutation');
+const PostsQuery = require('./graphql/POSTS/PostsQuery');
 
-const COMMENTS = require('./COMMENTS/CommentsSchema')
-const CommentsQuery = require('./COMMENTS/CommentsQuery')
-const CommentsMutation = require('./COMMENTS/CommentsMutation');
+const COMMENTS = require('./graphql/COMMENTS/CommentsSchema');
+const CommentsQuery = require('./graphql/COMMENTS/CommentsQuery');
+const CommentsMutation = require('./graphql/COMMENTS/CommentsMutation');
 
-const AUTH = require('./AUTH/AuthSchema')
-const AuthQuery = require('./AUTH/AuthQuery')
-const AuthMutation = require('./AUTH/AuthMutation');
+const AUTH = require('./graphql/AUTH/AuthSchema');
+const AuthQuery = require('./graphql/AUTH/AuthQuery');
+const AuthMutation = require('./graphql/AUTH/AuthMutation');
 
-const AVATARS = require('./AVATARS/AvatarsSchema')
-const AvatarsQuery = require('./AVATARS/AvatarsQuery')
-const AvatarsMutation = require('./AVATARS/AvatarsMutation');
+const AVATARS = require('./graphql/AVATARS/AvatarsSchema');
+const AvatarsQuery = require('./graphql/AVATARS/AvatarsQuery');
+const AvatarsMutation = require('./graphql/AVATARS/AvatarsMutation');
 
 const app = express();
 
@@ -41,8 +43,19 @@ async function startApolloServer() {
 
   server.applyMiddleware({ app });
 
-  app.listen(4000, () => {
-    console.log('Serwer GraphQL jest uruchomiony na http://localhost:4000/graphql');
+  // Serve your static assets if needed (e.g., images, HTML files)
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // Define the route for GraphQL, adjust the path as needed
+  app.use('/graphql', (req, res) => {
+    res.status(200).send('Welcome to GraphQL!');
+  });
+
+  // Use environment variable for the port or default to 4000
+  const PORT = process.env.PORT || 4000;
+
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
 }
 
