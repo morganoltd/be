@@ -44,5 +44,8 @@
   "devDependencies": {
     "ajv": "^6.12.6",
     "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
