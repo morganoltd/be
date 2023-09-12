@@ -32,7 +32,7 @@ const AvatarsQuery = require('./AVATARS/AvatarsQuery');
 const AvatarsMutation = require('./AVATARS/AvatarsMutation');
 
 // Initialize Firebase Admin SDK with your service account key
-const serviceAccount = require('key.json'); // Replace with your service account key file
+const serviceAccount = require('../key.json'); // Replace with your service account key file
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://graminator.firebaseio.com', // Replace with your Firebase project URL
