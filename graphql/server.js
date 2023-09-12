@@ -1,63 +1,47 @@
-const { buildSchema, GraphQLObjectType } = require('graphql');
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
-const cors = require('cors');
-const path = require();
+const { ApolloServer } = require('apollo-server');
+const admin = require('firebase-admin');
 
-const app = express();
+const GAMES = require('./graphql/GAMES/GameSchema');
+const GameMutation = require('./graphql/GAMES/GameMutation');
+const GameQuery = require('./graphql/GAMES/GameQuery');
 
-// Allow cross-origin
-app.use(cors());
+const USERS = require('./graphql/USERS/UserSchema');
+const UserMutation = require('./graphql/USERS/UserMutation');
+const UserQuery = require('./graphql/USERS/UserQuery');
 
-// Define your schema types and resolvers for each type
-const GAMES = require('./graphql/GAMES');
-const USERS = require('./graphql/USERS');
-const POST = require('./graphql/POST');
-const POSTS = require('./graphql/POSTS');
-const COMMENTS = require('./graphql/COMMENTS');
-const AUTH = require('./graphql/AUTH');
-const AVATARS = require('./graphql/AVATARS');
+const POST = require('./graphql/POST/PostSchema');
+const PostMutation = require('./graphql/POST/PostMutation');
+const PostQuery = require('./graphql/POST/PostQuery');
 
-// Combine the schemas into one
-const rootQuery = new GraphQLObjectType({
-  name: 'Query',
-  fields: {
-    ...GAMES.query,
-    ...USERS.query,
-    ...POST.query,
-    ...POSTS.query,
-    ...COMMENTS.query,
-    ...AUTH.query,
-    ...AVATARS.query,
-  },
+const POSTS = require('./graphql/POSTS/PostsSchema');
+const PostsMutation = require('./graphql/POSTS/PostsMutation');
+const PostsQuery = require('./graphql/POSTS/PostsQuery');
+
+const COMMENTS = require('./graphql/COMMENTS/CommentsSchema');
+const CommentsQuery = require('./graphql/COMMENTS/CommentsQuery');
+const CommentsMutation = require('./graphql/COMMENTS/CommentsMutation');
+
+const AUTH = require('./graphql/AUTH/AuthSchema');
+const AuthQuery = require('./graphql/AUTH/AuthQuery');
+const AuthMutation = require('./graphql/AUTH/AuthMutation');
+
+const AVATARS = require('./graphql/AVATARS/AvatarsSchema');
+const AvatarsQuery = require('./graphql/AVATARS/AvatarsQuery');
+const AvatarsMutation = require('./graphql/AVATARS/AvatarsMutation');
+
+// Initialize Firebase Admin SDK with your service account key
+const serviceAccount = require('key.json'); // Replace with your service account key file
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://graminator.firebaseio.com', // Replace with your Firebase project URL
 });
 
-const rootMutation = new GraphQLObjectType({
-  name: 'Mutation',
-  fields: {
-    ...GAMES.mutation,
-    ...USERS.mutation,
-    ...POST.mutation,
-    ...POSTS.mutation,
-    ...COMMENTS.mutation,
-    ...AUTH.mutation,
-    ...AVATARS.mutation,
-  },
+const server = new ApolloServer({
+  typeDefs: [GAMES, USERS, POST, POSTS, COMMENTS, AVATARS, AUTH],
+  resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostQuery, PostsMutation, PostsQuery, CommentsQuery, CommentsMutation, AvatarsQuery, AvatarsMutation, AuthQuery, AuthMutation],
+  context: ({ req }) => ({ req }),
 });
 
-const schema = new GraphQLSchema({
-  query: rootQuery,
-  mutation: rootMutation,
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server running at ${url}`);
 });
-
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema,
-    graphiql: true,
-  })
-);
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
