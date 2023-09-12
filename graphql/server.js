@@ -3,33 +3,33 @@ const admin = require('firebase-admin');
 const express = require('express');
 const expressGraphQL = require('express-graphql'); // Import express-graphql
 
-const GAMES = require('../GAMES/GameSchema');
-const GameMutation = require('../GAMES/GameMutation');
-const GameQuery = require('../GAMES/GameQuery');
+const GAMES = require('./GAMES/GameSchema');
+const GameMutation = require('./GAMES/GameMutation');
+const GameQuery = require('./GAMES/GameQuery');
 
-const USERS = require('../USERS/UserSchema');
-const UserMutation = require('../USERS/UserMutation');
-const UserQuery = require('../USERS/UserQuery');
+const USERS = require('./USERS/UserSchema');
+const UserMutation = require('./USERS/UserMutation');
+const UserQuery = require('./USERS/UserQuery');
 
-const POST = require('../POST/PostSchema');
-const PostMutation = require('../POST/PostMutation');
-const PostQuery = require('../POST/PostQuery');
+const POST = require('./POST/PostSchema');
+const PostMutation = require('./POST/PostMutation');
+const PostQuery = require('./POST/PostQuery');
 
-const POSTS = require('../POSTS/PostsSchema');
-const PostsMutation = require('../POSTS/PostsMutation');
-const PostsQuery = require('../POSTS/PostsQuery');
+const POSTS = require('./POSTS/PostsSchema');
+const PostsMutation = require('./POSTS/PostsMutation');
+const PostsQuery = require('./POSTS/PostsQuery');
 
-const COMMENTS = require('../COMMENTS/CommentsSchema');
-const CommentsQuery = require('../COMMENTS/CommentsQuery');
-const CommentsMutation = require('../COMMENTS/CommentsMutation');
+const COMMENTS = require('./COMMENTS/CommentsSchema');
+const CommentsQuery = require('./COMMENTS/CommentsQuery');
+const CommentsMutation = require('./COMMENTS/CommentsMutation');
 
-const AUTH = require('../AUTH/AuthSchema');
-const AuthQuery = require('../AUTH/AuthQuery');
-const AuthMutation = require('../AUTH/AuthMutation');
+const AUTH = require('./AUTH/AuthSchema');
+const AuthQuery = require('./AUTH/AuthQuery');
+const AuthMutation = require('./AUTH/AuthMutation');
 
-const AVATARS = require('../AVATARS/AvatarsSchema');
-const AvatarsQuery = require('../AVATARS/AvatarsQuery');
-const AvatarsMutation = require('../AVATARS/AvatarsMutation');
+const AVATARS = require('./AVATARS/AvatarsSchema');
+const AvatarsQuery = require('./AVATARS/AvatarsQuery');
+const AvatarsMutation = require('./AVATARS/AvatarsMutation');
 
 // Initialize Firebase Admin SDK with your service account key
 const serviceAccount = require('key.json'); // Replace with your service account key file
