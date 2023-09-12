@@ -1,5 +1,7 @@
 const { ApolloServer } = require('apollo-server');
 const admin = require('firebase-admin');
+const express = require('express');
+const expressGraphQL = require('express-graphql'); // Import express-graphql
 
 const GAMES = require('./graphql/GAMES/GameSchema');
 const GameMutation = require('./graphql/GAMES/GameMutation');
@@ -35,6 +37,8 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://graminator.firebaseio.com', // Replace with your Firebase project URL
 });
+
+const app = express();
 
 const server = new ApolloServer({
   typeDefs: [GAMES, USERS, POST, POSTS, COMMENTS, AVATARS, AUTH],
