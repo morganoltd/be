@@ -7,7 +7,9 @@ admin.initializeApp({
   databaseAuthVariableOverride: {
     uid: 'comments-worker', // Set a unique UID for the Realtime Database access
   },
-});
+},
+'bruh'
+);
 
 const CommentsQuery = {
   Query: {
