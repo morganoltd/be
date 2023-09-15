@@ -1,10 +1,7 @@
 const { ApolloServer } = require('apollo-server');
 const admin = require('firebase-admin');
-const express = require('express');
-const expressGraphQL = require('express-graphql'); // Import express-graphql
 
-// Initialize Firebase Admin SDK with your service account key
-const serviceAccount = require('../key.json'); // Replace with your service account key file
+const serviceAccount = require('../key.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -18,7 +15,6 @@ const UserMutation = require('./USERS/UserMutation');
 const UserQuery = require('./USERS/UserQuery');
 
 const POST = require('./POST/PostSchema');
-const PostMutation = require('./POST/PostMutation');
 const PostQuery = require('./POST/PostQuery');
 
 const POSTS = require('./POSTS/PostsSchema');
@@ -32,8 +28,6 @@ const AuthMutation = require('./AUTH/AuthMutation');
 const AVATARS = require('./AVATARS/AvatarsSchema');
 const AvatarsQuery = require('./AVATARS/AvatarsQuery');
 const AvatarsMutation = require('./AVATARS/AvatarsMutation');
-
-const app = express();
 
 const server = new ApolloServer({
   typeDefs: [GAMES, USERS, POST, POSTS, AVATARS, AUTH],
