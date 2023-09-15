@@ -35,7 +35,6 @@ const AvatarsMutation = require('./AVATARS/AvatarsMutation');
 const serviceAccount = require('../key.json'); // Replace with your service account key file
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://graminator.firebaseio.com', // Replace with your Firebase project URL
 });
 
 const app = express();
