@@ -25,10 +25,6 @@ const POSTS = require('./POSTS/PostsSchema');
 const PostsMutation = require('./POSTS/PostsMutation');
 const PostsQuery = require('./POSTS/PostsQuery');
 
-const COMMENTS = require('./COMMENTS/CommentsSchema');
-const CommentsQuery = require('./COMMENTS/CommentsQuery');
-const CommentsMutation = require('./COMMENTS/CommentsMutation');
-
 const AUTH = require('./AUTH/AuthSchema');
 const AuthQuery = require('./AUTH/AuthQuery');
 const AuthMutation = require('./AUTH/AuthMutation');
@@ -40,8 +36,8 @@ const AvatarsMutation = require('./AVATARS/AvatarsMutation');
 const app = express();
 
 const server = new ApolloServer({
-  typeDefs: [GAMES, USERS, POST, POSTS, COMMENTS, AVATARS, AUTH],
-  resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostQuery, PostsMutation, PostsQuery, CommentsQuery, CommentsMutation, AvatarsQuery, AvatarsMutation, AuthQuery, AuthMutation],
+  typeDefs: [GAMES, USERS, POST, POSTS, AVATARS, AUTH],
+  resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostQuery, PostsMutation, PostsQuery, AvatarsQuery, AvatarsMutation, AuthQuery, AuthMutation],
   context: ({ req }) => ({ req }),
 });
 
