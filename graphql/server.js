@@ -2,6 +2,20 @@ const { ApolloServer } = require('apollo-server');
 const admin = require('firebase-admin');
 const express = require('express');
 const expressGraphQL = require('express-graphql'); // Import express-graphql
+const firebase = require('firebase/compat/app');
+require('firebase/compat/storage');
+require('firebase/compat/firestore');
+require('firebase/compat/auth');
+
+const storage = firebase.storage();
+const db = firebase.firestore();
+const firebaseAuth = firebase.auth();
+
+// Initialize Firebase Admin SDK with your service account key
+const serviceAccount = require('../key.json'); // Replace with your service account key file
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 const GAMES = require('./GAMES/GameSchema');
 const GameMutation = require('./GAMES/GameMutation');
@@ -31,12 +45,6 @@ const AVATARS = require('./AVATARS/AvatarsSchema');
 const AvatarsQuery = require('./AVATARS/AvatarsQuery');
 const AvatarsMutation = require('./AVATARS/AvatarsMutation');
 
-// Initialize Firebase Admin SDK with your service account key
-const serviceAccount = require('../key.json'); // Replace with your service account key file
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
-
 const app = express();
 
 const server = new ApolloServer({
@@ -48,3 +56,5 @@ const server = new ApolloServer({
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`Server running at ${url}`);
 });
+
+module.exports = { storage, db, firebaseAuth };
