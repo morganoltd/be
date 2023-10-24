@@ -1,63 +1,133 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const POSTS = gql`
+  type Post {
+    id: ID
+    background: Background
+    postFooter: PostFooter
+    sticker: Sticker
+    stickerPost: StickerPost
+    title: Title
+    titlePost: TitlePost
+    utils: Utils
+  }
 
-type postTitle {
-  title: String!
-  text: String!
-  createdAt: String
-  likes: Int
-  views: Int
-  hashtag: String!
-  tags: [String]!
-  games: [String]!
-  store: PostStore
-  photos: Photos
-  videos: Videos
-  styles: Styles
-}
+  type Background {
+    backgroundFilter: String
+    selectedBackground: String
+  }
 
-type PostStore {
-  bg: String
-  game: String
-}
+  type PostFooter {
+    hashtag: String!
+    likes: Int
+    username: String!
+    views: Int
+  }
 
-type Photos {
-  firstphoto: Photo
-  secondphoto: Photo
-}
+  type Sticker {
+    selectedSticker: String
+    stickerFilter: String
+    stickerMargin: Int
+    stickerWidth: Int
+  }
 
-type Photo {
-  url: String!
-  description: String
-}
+  type StickerPost {
+    stickerPostMargin: Int
+    stickerPostWidth: Int
+  }
 
-type Videos {
-  firstvideo: Video
-  secondvideo: Video
-}
+  type Title {
+    title: String!
+    titleMarginHor: Int
+    titleMarginVer: Int
+    titleFont: String
+    titleFontSize: Int
+    titleColor: String
+    titleStyle: String
+    titleShadow: String
+    titleLetter: String
+    titleWeight: String
+    titleItalic: String
+    titleUnderline: String
+    titleBreak: Int
+    titleAlign: String
+    titleHeight: Int
+    titleSpacing: Int
+  }
 
-type Video {
-  url: String!
-  description: String
-}
+  type TitlePost {
+    titlePostFontSize: Int
+    titlePostMarginHor: Int
+    titlePostMarginVer: Int
+    titlePostBreak: Int
+    titlePostSpacing: Int
+    titlePostHeight: Int
+    titlePostAlign: String
+  }
 
-type Styles {
-  fontTitle: String
-  fontText: String
-  positionTitle: String
-  positionText: String
-}
+  type Utils {
+    createdAt: String
+    format: String!
+    games: [String]!
+    published: Boolean
+    email: String!
+  }
 
-type Query {
-  All_Posts: [postTitle]
-  get_user_posts(username: String!): [postTitle]
-}
+  type Query {
+    All_Posts: [Post]
+    get_all_user_posts(username: String!): [Post]
+    get_user_post(postId: ID!): Post
+    getPostsByGame(game: String!): [Post]
+  }
 
-type Mutation {
-  addPost(postTitle: String!, username: String!, text: String!, hashtag: [String!]!, games: [ID!]!): postTitle!
-}
+  type Mutation {
+    addPost(
+      games: [ID!]!
+      backgroundFilter: String
+      selectedBackground: String
+      hashtag: String!
+      likes: Int
+      username: String!
+      views: Int
+      selectedSticker: String
+      stickerFilter: String
+      stickerMargin: Int
+      stickerWidth: Int
+      stickerPostMargin: Int
+      stickerPostWidth: Int
+      title: String!
+      titleMarginHor: Int
+      titleMarginVer: Int
+      titleFont: String
+      titleFontSize: Int
+      titleColor: String
+      titleStyle: String
+      titleShadow: String
+      titleLetter: String
+      titleWeight: String
+      titleItalic: String
+      titleUnderline: String
+      titleBreak: Int
+      titleAlign: String
+      titleHeight: Int
+      titleSpacing: Int
+      titlePostFontSize: Int
+      titlePostMarginHor: Int
+      titlePostMarginVer: Int
+      titlePostBreak: Int
+      titlePostSpacing: Int
+      titlePostHeight: Int
+      titlePostAlign: String
+      createdAt: String
+      format: String!
+      published: Boolean
+      email: String!
+    ): Post!
 
+    incrementPostViews(postId: ID!): Post!
+    likePost(postId: ID!): Post!
+    unlikePost(postId: ID!): Post!
+  }
 `;
 
 module.exports = POSTS;

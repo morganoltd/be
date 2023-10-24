@@ -33,14 +33,17 @@ const GAMES = gql`
     card: Card!
     block: String!
     gameplay: String!
+    stickers: [String!]!
+    avatar: String!
   }
 
   input StoreInput {
     billboard: String
     card: CardInput
-    footer: String
     block: String
     gameplay: String
+    stickers: [String]
+    avatar: String
   }
 
   type Card {

@@ -17,6 +17,8 @@ export const GAMES = gql`
       }
       block
       gameplay
+      stickers
+      avatar
     }
     platforms
     release {
