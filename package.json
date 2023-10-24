@@ -27,6 +27,7 @@
     "firebase-admin": "^11.11.0",
     "graphql": "^15.8.0",
     "graphql-scalars": "^1.22.2",
+    "heroku": "^8.6.0",
     "moment": "^2.29.4",
     "next": "13.4.4",
     "next-link": "^2.0.0",
