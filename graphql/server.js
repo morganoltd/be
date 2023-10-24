@@ -38,17 +38,9 @@ async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs: [GAMES, USERS, POSTS, COMMENTS, AUTH, IMG, ACHIEVEMENTS, PREMIUM],
     resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostsQuery, PostsMutation, CommentsQuery, CommentsMutation, AuthMutation, ImgQuery, ImgMutation, AchievementsQuery, AchievementsMutation, PremiumQuery, PremiumMutation],
-  });
+ context: ({ req }) => ({ req }),
+});
 
-  await server.start();
-
-  server.applyMiddleware({ app });
-
-  app.listen(4000, () => {
-    console.log('Serwer GraphQL jest uruchomiony na http://localhost:4000/graphql');
-  });
-}
-
-startApolloServer().catch((err) => {
-  console.error(err);
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server running at ${url}`);
 });
