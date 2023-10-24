@@ -1,5 +1,10 @@
-const { ApolloServer } = require('apollo-server-express');
-const express = require('express');
+const { ApolloServer } = require('apollo-server');
+const admin = require('firebase-admin');
+
+const serviceAccount = require('../key.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 const GAMES = require('./GAMES/GameSchema');
 const GameMutation = require('./GAMES/GameMutation');
@@ -31,8 +36,6 @@ const AchievementsMutation = require('./ACHIEVEMENTS/AchievementsMutation.js');
 const PREMIUM = require('./PREMIUM/PremiumSchema')
 const PremiumQuery = require('./PREMIUM/PremiumQuery')
 const PremiumMutation = require('./PREMIUM/PremiumMutation');
-
-const app = express();
 
 const server = new ApolloServer({
     typeDefs: [GAMES, USERS, POSTS, COMMENTS, AUTH, IMG, ACHIEVEMENTS, PREMIUM],
