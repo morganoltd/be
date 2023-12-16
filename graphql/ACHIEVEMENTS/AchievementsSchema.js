@@ -1,48 +1,101 @@
 const { gql } = require('apollo-server-express');
-const { GraphQLScalarType } = require('graphql');
-const { Kind } = require('graphql/language');
-const { GraphQLDateTime } = require('graphql-scalars');
 
 const ACHIEVEMENTS = gql`
-  scalar DateTime
-
-  type Achievement {
-    createdAt: DateTime!
+  type TaskPack {
+    id: String
+    createdAt: String!
     title: String!
-    number: Int!
-    accepted: [String!]!
-    finished: [String!]!
     description: String!
-    endsAt: DateTime!
-    awards: [String!]!
+    color: String!
+    endsAt: String!
+    img: String!
   }
 
-  type Query {
-    all_achievements: [Achievement]
-    current_achievements: [Achievement]
+  type Task {
+    id: String
+    title: String!
+    description: String!
+    award: String!
+    icon: String!
+    maxProgress: Int!
   }
 
   type Mutation {
-    addNewAchievement(
+    addTaskPack(
       title: String!
       description: String!
-      endsAt: DateTime!
-    ): Achievement!
+      color: String!
+      endsAt: String!
+      img: String!
+    ): TaskPack!
 
-    acceptedUsers_achievements(
-      achievement: String!
-      username: String!
-    ): String!
+    updateTaskPack(
+      id: String!
+      description: String
+      color: String
+      endsAt: String
+    ): TaskPack!
 
-    finishedUsers_achievements(
-      achievement: String!
-      username: String!
-    ): String!
+    deleteTaskPack(id: String!): TaskPack!
 
-    addAwards_achievements(
-      achievement: String!
-      premiumID: String!
-    ): String!
+    addTask(
+      idTask: String!
+      taskPackId: String!
+      title: String!
+      description: String!
+      award: String!
+      icon: String!
+      maxProgress: Int!
+    ): Task!
+
+    updateTask(
+      taskId: String!
+      description: String
+      award: String
+      icon: String
+    ): Task!
+
+    deleteTask(taskId: String!): Task!
+
+    addAwardToPremium(
+      userID: String!
+      premiumArray: String!
+      achievementID: String!
+    ): MessageResponse!
+
+    updateFinishedArray(
+      taskId: String!
+      userID: String!
+    ): MessageResponse!
+
+    progressQuery(userId: String!, achievementId: String!): ProgressDetails
+  }
+
+  type MessageResponse {
+    message: String!
+  }
+
+  type TaskPackDetails {
+    taskPack: TaskPack
+    tasks: [Task]
+  }
+
+  type ProgressDetails {
+    achievementId: String!
+    progress: [String]!
+  }
+
+  type AchievementProgress {
+    progress: [String]
+    taskID: String
+    taskPackID: String
+  }
+
+  type Query {
+    taskPackDetails(taskPackId: String!): TaskPackDetails
+    allTaskPacks: [TaskPackDetails]
+    progressQuery(userId: String!, achievementId: String!): ProgressDetails
+    AllProgressQuery(userId: String!): [AchievementProgress!]!
   }
 `;
 

@@ -6,26 +6,22 @@ const GAMES = gql`
     title: String!
     developer: String!
     publisher: String!
-    genre: [String!]!
-    mode: [String!]!
     store: Store!
     platforms: [String!]!
     release: Release!
     description: String!
-    tags: [String!]!
+    likes: Int!
   }
 
   input NewGameInput {
     title: String!
     developer: String!
     publisher: String!
-    genre: [String!]!
-    mode: [String!]!
     store: StoreInput!
     platforms: [String!]!
     release: ReleaseInput!
     description: String!
-    tags: [String!]!
+    likes: Int!
   }
 
   type Store {
@@ -34,7 +30,8 @@ const GAMES = gql`
     block: String!
     gameplay: String!
     stickers: [String!]!
-    avatar: String!
+    avatars: [String!]!
+    backgrounds: [String!]!
   }
 
   input StoreInput {
@@ -43,7 +40,8 @@ const GAMES = gql`
     block: String
     gameplay: String
     stickers: [String]
-    avatar: String
+    avatars: [String]
+    backgrounds: [String]
   }
 
   type Card {
@@ -68,6 +66,17 @@ const GAMES = gql`
     year: Int!
   }
 
+  input UpdateGameInput {
+  title: String
+  developer: String
+  publisher: String
+  store: StoreInput
+  platforms: [String!]
+  release: ReleaseInput
+  description: String
+  likes: Int
+}
+
   type Query {
     single_game(id: ID!): Game
     all_games: [Game]
@@ -75,9 +84,12 @@ const GAMES = gql`
 
   type Mutation {
     addGame(input: NewGameInput!): Game
-    updateGameStore(id: ID!, storeInput: StoreInput!): Game
     deleteGame(id: ID!): Game
+    likeGame(id: ID!): Game
+    unlikeGame(id: ID!): Game
+    updateGame(id: ID!, input: UpdateGameInput!): Game
   }
 `;
 
 module.exports = GAMES;
+

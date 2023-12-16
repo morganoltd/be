@@ -1,21 +1,19 @@
 const { gql } = require('apollo-server-express');
 
 const PREMIUM = gql`
-  type Premium {
+  type PremiumItem {
+    id: String!
     name: String!
     url: String!
-    format: String!
-    used: Int!
-    tags: [String!]
+    unit: String!
   }
 
   type Query {
-    all_Premium: [Premium]
+    allPremiumItems: [PremiumItem]
   }
 
   type Mutation {
-    add_Premium(name: String!, url: String!, format: String!, tags: [String!]): Premium
-    counter_used(id: String!): Int
+    addPremiumItem(name: String!, url: String!, unit: String!): PremiumItem
   }
 `;
 

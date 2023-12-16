@@ -13,25 +13,24 @@ const USERS = gql`
     email: String!
     country: String!
     role: String!
+    accepted: [String]
+    finished: [String]
   }
 
   type Profile {
     avatar: String
     billboard: String
     games: [String]
+    topGames: [String]
     social: Social
-    achievements: Achievements
     liked: [String]
     likedPosts: [String]
     likedComments: [String]
     views: [String]
     subbedBy: [String]
     subbedTo: [String]
-  }
-
-  type Achievements {
-    accepted: [String]
-    finished: [String]
+    premium: Premium
+    progress: [String] # Added progress field
   }
 
   type Social {
@@ -39,6 +38,17 @@ const USERS = gql`
     x: String
     youtube: String
     twitch: String
+  }
+
+  type Premium {
+    backgrounds: [String]
+    fonts: [String]
+    sliders: [String]
+    players: [String]
+    avatars: [String]
+    stickers: [String]
+    billboards: [String]
+    colors: [String]
   }
 
   input UpdateUserDataInput {
@@ -64,6 +74,7 @@ const USERS = gql`
   type Query {
     All_Users: [User]
     get_user(id: ID!): User
+    getTopGames(id: ID!): [String]
   }
 
   type Mutation {
@@ -91,6 +102,35 @@ const USERS = gql`
     subscribeUser(userId: String!, targetUserId: String!): User
     unsubscribeUser(userId: String!, targetUserId: String!): User
     deleteUser(userId: String!): DeleteUserResponse
+
+    createAchievementsSubcollection(userId: String!, taskPackId: String!): MessageResponse
+
+    updateTopGame(
+      userID: String!
+      topGame: String!
+      topGameLength: Int!
+    ): User
+
+    updateProgress(
+      userId: String!
+      achievementsId: String!
+      progressUpdate: String!
+    ): User
+
+    deleteLastProgress(
+      userId: String!
+      achievementsId: String!
+    ): User
+
+    deleteUserTaskPack(
+      userId: String!
+      taskPackId: String!
+    ): DeleteUserResponse
+
+  }
+
+  type MessageResponse {
+    message: String!
   }
 `;
 

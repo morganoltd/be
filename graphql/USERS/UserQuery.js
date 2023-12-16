@@ -22,7 +22,7 @@ const UserQuery = {
         .get()
         .then((doc) => {
           if (doc.exists) {
-              return doc.data();
+            return doc.data();
           } else {
             throw new Error('User not found');
           }
@@ -31,8 +31,24 @@ const UserQuery = {
           console.error('Error retrieving user:', error);
           return null;
         });
-    }
     },
+    getTopGames: (_, { id }) => {
+      return db.collection('USERS').doc(id)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            return userData.profile.topGames;
+          } else {
+            throw new Error('User not found');
+          }
+        })
+        .catch((error) => {
+          console.error('Error retrieving topGames:', error);
+          return null;
+        });
+    },
+  },
 };
 
 module.exports = UserQuery;
