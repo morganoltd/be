@@ -35,8 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Wyklucz pliki generowane przez menedżery pakietów
 package-lock.json
 yarn.lock
-
-.env
