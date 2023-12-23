@@ -31,10 +31,6 @@ const CommentsMutation = require('./COMMENTS/CommentsMutation');
 const AUTH = require('./AUTH/AuthSchema')
 const AuthMutation = require('./AUTH/AuthMutation');
 
-const IMG = require('./IMG/ImgSchema')
-const ImgQuery = require('./IMG/ImgQuery')
-const ImgMutation = require('./IMG/ImgMutation');
-
 const ACHIEVEMENTS = require('./ACHIEVEMENTS/AchievementsSchema')
 const AchievementsQuery = require('./ACHIEVEMENTS/AchievementsQuery')
 const AchievementsMutation = require('./ACHIEVEMENTS/AchievementsMutation.js');
@@ -43,9 +39,13 @@ const PREMIUM = require('./PREMIUM/PremiumSchema')
 const PremiumQuery = require('./PREMIUM/PremiumQuery')
 const PremiumMutation = require('./PREMIUM/PremiumMutation');
 
+const ALERTS = require('./ALERTS/AlertsSchema')
+const AlertsQuery = require('./ALERTS/AlertsQuery')
+const AlertsMutation = require('./ALERTS/AlertsMutation');
+
 const server = new ApolloServer({
-    typeDefs: [GAMES, USERS, POSTS, COMMENTS, AUTH, IMG, ACHIEVEMENTS, PREMIUM],
-    resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostsQuery, PostsMutation, CommentsQuery, CommentsMutation, AuthMutation, ImgQuery, ImgMutation, AchievementsQuery, AchievementsMutation, PremiumQuery, PremiumMutation],
+  typeDefs: [GAMES, USERS, POSTS, COMMENTS, AUTH, ACHIEVEMENTS, PREMIUM, ALERTS],
+  resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostsQuery, PostsMutation, CommentsQuery, CommentsMutation, AuthMutation, AchievementsQuery, AchievementsMutation, PremiumQuery, PremiumMutation, AlertsQuery, AlertsMutation],
  context: ({ req }) => ({ req }),
  introspection: true,
  playground: true,

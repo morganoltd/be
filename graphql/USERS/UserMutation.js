@@ -41,7 +41,7 @@ const createAchievementsSubcollection = async (userId, taskPackId) => {
 
 const UserMutation = {
   Mutation: {
-    addUser: async (_, { username, password, games, email, country }) => {
+    addUser: async (_, { username, password, email, country }) => {
       try {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
@@ -50,23 +50,8 @@ const UserMutation = {
         if (!validCountries.includes(country)) {
           throw new Error("Invalid country.");
         }
-        if (games.length < 5) {
-          throw new Error("At least 5 games are required.");
-        }
 
         const createdAt = formatCreatedAt(new Date());
-        const lowercaseGames = games.map((game) => game.toLowerCase());
-        const validGamesSnapshot = await db
-          .collection("GAMES")
-          .where("id", "in", lowercaseGames)
-          .get();
-        const validGames = validGamesSnapshot.docs.map((doc) => doc.data().id);
-
-        if (validGames.length !== games.length) {
-          throw new Error(
-            "Some provided games do not exist in the GAMES collection."
-          );
-        }
 
         const userCredential =
           await firebaseAuth.createUserWithEmailAndPassword(email, password);
@@ -87,7 +72,7 @@ const UserMutation = {
             profile: {
               avatar: "",
               billboard: "",
-              games: validGames,
+              games: [],
               topGames: ["", "", "", "", ""],
               views: [],
               subbedBy: [],
@@ -129,7 +114,7 @@ const UserMutation = {
           profile: {
             avatar: "",
             billboard: "",
-            games: validGames,
+            games: [],
             topGames: ["", "", "", "", ""],
             views: [],
             subbedBy: [],
@@ -761,43 +746,46 @@ const UserMutation = {
     updateTopGame: async (_, { userID, topGame, topGameLength }, context) => {
       try {
         // Validate if the topGame exists in the GAMES collection
-        const gameDoc = await db
-          .collection("GAMES")
-          .where("id", "==", topGame.toLowerCase())
-          .get();
-
-        if (gameDoc.empty) {
-          throw new Error(
-            "Provided topGame does not exist in the GAMES collection."
-          );
+        if (topGame !== "") {
+          const gameDoc = await db
+            .collection("GAMES")
+            .where("id", "==", topGame.toLowerCase())
+            .get();
+    
+          if (gameDoc.empty) {
+            throw new Error(
+              "Provided topGame does not exist in the GAMES collection."
+            );
+          }
         }
-
+    
         // Your existing mutation logic here
         const userRef = db.collection("USERS").doc(userID);
         const userDoc = await userRef.get();
-
+    
         if (!userDoc.exists) {
           throw new Error("User not found.");
         }
-
+    
         // Update the topGames array at the specified position
         const updatedTopGames = [...userDoc.data().profile.topGames];
         updatedTopGames[topGameLength] = topGame;
-
+    
         await userRef.update({
           "profile.topGames": updatedTopGames,
         });
-
+    
         // Retrieve and return the updated user data
         const updatedUserDoc = await userRef.get();
         const updatedUserData = updatedUserDoc.data();
-
+    
         return updatedUserData;
       } catch (error) {
         console.error("Error updating top game:", error);
         throw new Error("An error occurred while updating the top game");
       }
     },
+    
     updateProgress: async (_, { userId, achievementsId, progressUpdate }) => {
       try {
         const userRef = db.collection("USERS").doc(userId);

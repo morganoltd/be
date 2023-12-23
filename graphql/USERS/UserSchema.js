@@ -81,7 +81,6 @@ const USERS = gql`
     addUser(
       username: String!
       password: String!
-      games: [String]!
       email: String!
       country: String!
     ): User

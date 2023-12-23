@@ -16,12 +16,15 @@ const PostsMutation = {
           email,
           hashtag,
           username,
+          published,
           title,
           selectedBackground,
+          selectedBackgroundTitle,
           backgroundColor,
           likes,
           views,
           selectedSticker,
+          selectedStickerTitle,
           stickerBlack,
           stickerOpacity,
           stickerReverse,
@@ -147,7 +150,7 @@ const PostsMutation = {
         const newPost = {
           utils: {
             id: postId,
-            published: true,
+            published,
             games: validGames,
             format,
             email,
@@ -255,6 +258,7 @@ const PostsMutation = {
             stickerOpacity: stickerOpacity || 1,
             stickerReverse: stickerReverse || 1,
             selectedSticker: selectedSticker || "",
+            selectedStickerTitle: selectedStickerTitle || "",
           },
           postFooter: {
             views: views || 0,
@@ -264,6 +268,7 @@ const PostsMutation = {
           },
           background: {
             selectedBackground: selectedBackground || "",
+            selectedBackgroundTitle: selectedBackgroundTitle || "",
             backgroundColor: backgroundColor || "",
           },
           newTextSections: newTextSections || [],

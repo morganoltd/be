@@ -67,6 +67,7 @@ const POSTS = gql`
 
   type Background {
     selectedBackground: String
+    selectedBackgroundTitle: String
     backgroundColor: String
   }
 
@@ -79,6 +80,7 @@ const POSTS = gql`
 
   type Sticker {
     selectedSticker: String
+    selectedStickerTitle: String
     stickerBlack: String
     stickerOpacity: Float
     stickerReverse: Int
@@ -236,12 +238,14 @@ const POSTS = gql`
     addPost(
       games: [ID!]!
       selectedBackground: String
+      selectedBackgroundTitle: String
       backgroundColor: String
       hashtag: String!
       likes: Int
       username: String!
       views: Int
       selectedSticker: String
+      selectedStickerTitle: String
       stickerBlack: String
       stickerOpacity: Float
       stickerReverse: Int
