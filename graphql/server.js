@@ -48,6 +48,7 @@ const server = new ApolloServer({
     resolvers: [GameMutation, GameQuery, UserMutation, UserQuery, PostsQuery, PostsMutation, CommentsQuery, CommentsMutation, AuthMutation, ImgQuery, ImgMutation, AchievementsQuery, AchievementsMutation, PremiumQuery, PremiumMutation],
  context: ({ req }) => ({ req }),
  introspection: true,
+ playground: true,
 });
 
 server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
