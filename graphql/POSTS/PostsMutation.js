@@ -283,6 +283,37 @@ const PostsMutation = {
         throw new Error("An error occurred while adding the post");
       }
     },
+    deletePost: async (_, { postId }) => {
+      try {
+        const userDocs = await db.collection("USERS").get();
+
+        for (const userDoc of userDocs.docs) {
+          const userRef = userDoc.ref;
+          const postRef = userRef.collection("POSTS").doc(postId);
+
+          const postDoc = await postRef.get();
+
+          if (postDoc.exists) {
+            // Usuń post z kolekcji użytkownika
+            await postRef.delete();
+
+            return {
+              success: true,
+              message: "Post has been deleted successfully.",
+            };
+          }
+        }
+
+        console.log("Post not found.");
+        return {
+          success: false,
+          message: "Post not found.",
+        };
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        throw new Error("An error occurred while deleting the post.");
+      }
+    },
     incrementPostViews: async (_, { postId }) => {
       try {
         const userDocs = await db.collection("USERS").get();

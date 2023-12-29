@@ -234,6 +234,11 @@ const POSTS = gql`
     getPostsByGame(game: String!): [Post]
   }
 
+  type DeletePostResponse {
+    success: Boolean!
+    message: String!
+  }
+
   type Mutation {
     addPost(
       games: [ID!]!
@@ -344,6 +349,7 @@ const POSTS = gql`
     incrementPostViews(postId: ID!): Post!
     likePost(postId: ID!): Post!
     unlikePost(postId: ID!): Post!
+    deletePost(postId: ID!): DeletePostResponse!
   }
 `;
 
