@@ -13,8 +13,7 @@ const USERS = gql`
     email: String!
     country: String!
     role: String!
-    accepted: [String]
-    finished: [String]
+    authorized: Boolean!
   }
 
   type Profile {
@@ -30,7 +29,7 @@ const USERS = gql`
     subbedBy: [String]
     subbedTo: [String]
     premium: Premium
-    progress: [String] # Added progress field
+    progress: [String] 
   }
 
   type Social {
@@ -74,6 +73,7 @@ const USERS = gql`
   type Query {
     All_Users: [User]
     get_user(id: ID!): User
+    getUserAuth(email: String!): User
     getTopGames(id: ID!): [String]
   }
 
@@ -125,6 +125,8 @@ const USERS = gql`
       userId: String!
       taskPackId: String!
     ): DeleteUserResponse
+
+    authorizeUser(userId: String!): MessageResponse
 
   }
 

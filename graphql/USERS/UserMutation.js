@@ -68,6 +68,7 @@ const UserMutation = {
               email: email,
               country: country,
               role: "user",
+              authorized: false,
             },
             profile: {
               avatar: "",
@@ -110,6 +111,7 @@ const UserMutation = {
             email: email,
             country: country,
             role: "user",
+            authorized: false,
           },
           profile: {
             avatar: "",
@@ -898,6 +900,24 @@ const UserMutation = {
       } catch (error) {
         console.error("Error deleting tasks in task pack:", error);
         throw new Error("An error occurred while deleting tasks in task pack");
+      }
+    },
+    authorizeUser: async (_, { userId }, context) => {
+      try {
+        await db.collection("USERS").doc(userId).update({
+          "account.authorized": true,
+        });
+
+        return {
+          success: true,
+          message: "User authorized successfully.",
+        };
+      } catch (error) {
+        console.error("Error authorizing user:", error);
+        return {
+          success: false,
+          message: "An error occurred while authorizing the user.",
+        };
       }
     },
   },

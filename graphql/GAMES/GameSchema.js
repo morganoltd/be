@@ -29,9 +29,9 @@ const GAMES = gql`
     card: Card!
     block: String!
     gameplay: String!
-    stickers: [String!]!
-    avatars: [String!]!
-    backgrounds: [String!]!
+    stickers: [String]
+    avatars: [String]
+    backgrounds: [String]
   }
 
   input StoreInput {

@@ -286,34 +286,48 @@ const PostsMutation = {
     deletePost: async (_, { postId }) => {
       try {
         const userDocs = await db.collection("USERS").get();
-
+    
+        let postFound = false;
+    
         for (const userDoc of userDocs.docs) {
           const userRef = userDoc.ref;
           const postRef = userRef.collection("POSTS").doc(postId);
-
+    
           const postDoc = await postRef.get();
-
+    
           if (postDoc.exists) {
-            // Usuń post z kolekcji użytkownika
+            // Delete post document
             await postRef.delete();
-
-            return {
-              success: true,
-              message: "Post has been deleted successfully.",
-            };
+            postFound = true;
+    
+            // Delete "COMMENTS" subcollection
+            const commentsRef = postRef.collection("COMMENTS");
+            const commentsDocs = await commentsRef.get();
+            for (const commentDoc of commentsDocs.docs) {
+              await commentDoc.ref.delete();
+            }
+    
+            break; // Exit the loop once the post is found and deleted
           }
         }
-
-        console.log("Post not found.");
-        return {
-          success: false,
-          message: "Post not found.",
-        };
+    
+        if (postFound) {
+          return {
+            success: true,
+            message: "Post and associated comments have been deleted successfully.",
+          };
+        } else {
+          console.log("Post not found.");
+          return {
+            success: false,
+            message: "Post not found.",
+          };
+        }
       } catch (error) {
         console.error("Error deleting post:", error);
         throw new Error("An error occurred while deleting the post.");
       }
-    },
+    },    
     incrementPostViews: async (_, { postId }) => {
       try {
         const userDocs = await db.collection("USERS").get();
@@ -393,6 +407,31 @@ const PostsMutation = {
       } catch (error) {
         console.error("Błąd podczas anulowania polubienia posta:", error);
         throw new Error("Wystąpił błąd podczas anulowania polubienia posta");
+      }
+    },
+    updatePost: async (_, { postId, updatedFields }) => {
+      try {
+        const userDocs = await db.collection("USERS").get();
+    
+        for (const userDoc of userDocs.docs) {
+          const userRef = userDoc.ref;
+          const postRef = userRef.collection("POSTS").doc(postId);
+    
+          const postDoc = await postRef.get();
+    
+          if (postDoc.exists) {
+            await postRef.set(updatedFields, { merge: true });
+    
+            const updatedPost = await postRef.get();
+            return updatedPost.data();
+          }
+        }
+    
+        console.log("Post not found.");
+        return null;
+      } catch (error) {
+        console.error("Error updating post:", error);
+        throw new Error("An error occurred while updating the post.");
       }
     },
   },

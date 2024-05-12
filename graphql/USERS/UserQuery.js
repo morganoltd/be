@@ -32,6 +32,23 @@ const UserQuery = {
           return null;
         });
     },
+    getUserAuth: (_, { email }) => {
+      return db.collection('USERS')
+        .where('account.email', '==', email)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.empty) {
+            throw new Error('User not found');
+          } else {
+            const userData = snapshot.docs[0].data();
+            return userData;
+          }
+        })
+        .catch((error) => {
+          console.error('Error retrieving user by email:', error);
+          return null;
+        });
+    },
     getTopGames: (_, { id }) => {
       return db.collection('USERS').doc(id)
         .get()

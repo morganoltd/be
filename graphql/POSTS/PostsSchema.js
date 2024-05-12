@@ -227,6 +227,186 @@ const POSTS = gql`
     email: String!
   }
 
+  input PostInput {
+    background: BackgroundInput
+    postFooter: PostFooterInput
+    sticker: StickerInput
+    stickerPost: StickerPostInput
+    title: TitleInput
+    text: TextInput
+    newTextSections: [TextNewSectionInput]
+    headSections: [HeadNewSectionInput]
+    titlePost: TitlePostInput
+    utils: UtilsInput
+    video: VideoInput
+    images: ImagesInput
+    entry: EntryInput
+  }
+
+  input EntryInput {
+    entry: String
+    entryFont: String
+    entrySize: Int
+    entryMarginHor: Int
+    entryMarginVer: Int
+    entryColor: String
+    entryColorAvatar: String
+    entryLetter: String
+    entryAlign: String
+    entryWeight: String
+    entryItalic: String
+    entryUnderline: String
+    entryBreak: Int
+    entrySpacing: Int
+    entryHeight: Int
+  }
+
+  input VideoInput {
+    selectedVideo: String
+    nameVideo: String
+    videoPlayer: String
+    videoTitle: String
+    videoSize: Int
+    videoColor: String
+    videoColorBackground: String
+    videoMarginHor: Int
+    videoMarginVer: Int
+  }
+
+  input ImagesInput {
+    selectedImages: [String]
+    nameImages: [String]
+    imagesSize: [Int]
+    imagesSlider: String
+    imagesPadding: Int
+    imagesMarginHor: Int
+    imagesMarginVer: Int
+    imagesBorder: String
+    imagesBorderRadius: Int
+    imagesShadow: String
+    imagesColor: String
+    imagesEffectSize: String
+    imagesEffectBlack: String
+    imagesEffectShadow: String
+  }
+
+  input BackgroundInput {
+    selectedBackground: String
+    selectedBackgroundTitle: String
+    backgroundColor: String
+  }
+
+  input PostFooterInput {
+    hashtag: String!
+  }
+
+  input StickerInput {
+    selectedSticker: String
+    selectedStickerTitle: String
+    stickerBlack: String
+    stickerOpacity: Float
+    stickerReverse: Int
+    stickerMarginHor: Int
+    stickerMarginVer: Int
+    stickerWidth: Int
+  }
+
+  input StickerPostInput {
+    stickerPostMarginHor: Int
+    stickerPostMarginVer: Int
+    stickerPostWidth: Int
+  }
+
+  input TitleInput {
+    title: String
+    titleMarginHor: Int
+    titleMarginVer: Int
+    titleFont: String
+    titleFontSize: Int
+    titleColor: String
+    titleStyle: String
+    titleShadow: String
+    titleLetter: String
+    titleWeight: String
+    titleItalic: String
+    titleUnderline: String
+    titleBreak: Int
+    titleAlign: String
+    titleHeight: Int
+    titleSpacing: Int
+  }
+
+  input TextInput {
+    text: String
+    textMarginHor: Int
+    textMarginVer: Int
+    textFont: String
+    textFontSize: Int
+    textColor: String
+    textStyle: String
+    textShadow: String
+    textLetter: String
+    textWeight: String
+    textItalic: String
+    textUnderline: String
+    textBreak: Int
+    textAlign: String
+    textHeight: Int
+    textSpacing: Int
+  }
+
+  input TextNewSectionInput {
+    newText: String
+    newTextFontSize: Int
+    newTextMarginHor: Int
+    newTextMarginVer: Int
+    newTextFont: String
+    newTextColor: String
+    newTextStyle: String
+    newTextShadow: String
+    newTextLetter: String
+    newTextWeight: String
+    newTextItalic: String
+    newTextUnderline: String
+    newTextBreak: Int
+    newTextAlign: String
+    newTextSpacing: Int
+    newTextHeight: Int
+  }
+
+  input HeadNewSectionInput {
+    head: String
+    headFontSize: Int
+    headMarginHor: Int
+    headMarginVer: Int
+    headFont: String
+    headColor: String
+    headStyle: String
+    headShadow: String
+    headLetter: String
+    headWeight: String
+    headItalic: String
+    headUnderline: String
+    headBreak: Int
+    headAlign: String
+    headSpacing: Int
+    headHeight: Int
+  }
+
+  input TitlePostInput {
+    titlePostFontSize: Int
+    titlePostMarginHor: Int
+    titlePostMarginVer: Int
+    titlePostBreak: Int
+    titlePostSpacing: Int
+    titlePostHeight: Int
+    titlePostAlign: String
+  }
+
+  input UtilsInput {
+    published: Boolean
+  }
+
   type Query {
     All_Posts: [Post]
     get_all_user_posts(username: String!): [Post]
@@ -343,13 +523,13 @@ const POSTS = gql`
       entryBreak: Int
       entrySpacing: Int
       entryHeight: Int
-
     ): Post!
 
     incrementPostViews(postId: ID!): Post!
     likePost(postId: ID!): Post!
     unlikePost(postId: ID!): Post!
     deletePost(postId: ID!): DeletePostResponse!
+    updatePost(postId: ID!, updatedFields: PostInput!): Post!
   }
 `;
 
